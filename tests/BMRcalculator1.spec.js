@@ -118,6 +118,7 @@ await expect.soft(page.getByText('Results').first()).toHaveCSS('Font-family','Ro
 await expect.soft(page.getByText('Results').first()).toHaveCSS('font-size','20px')
 await expect.soft(page.getByText('Results').first()).toHaveCSS('color','rgb(42, 54, 62)')
 await expect.soft(page.getByText('Results').first()).toHaveCSS('font-weight','700')
+console.log('linh test')
 });
 
 //TC32-34: Sharing icon button
