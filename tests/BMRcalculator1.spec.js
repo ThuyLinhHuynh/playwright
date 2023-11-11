@@ -65,7 +65,7 @@ test('TC18-21', async({page}) =>{
   await page.getByLabel('Your height in cm').click();
   await expect(page.getByLabel('Your height in cm')).toHaveCSS('border-bottom-color','rgb(38, 72, 212)');
   await page.getByLabel('Your height in cm').fill('180 cm');
-  await expect.soft(page.getByLabel('Your height in cm').inputValue()).not.toBe('180 cm');
+  await expect.soft(await page.getByLabel('Your height in cm').inputValue()).not.toBe('180 cm');
 });
 
 //TC22-23: 
@@ -93,7 +93,7 @@ test('TC24-27', async({page}) => {
   await page.getByLabel('Your weight in kg').click();
   await expect(page.getByLabel('Your weight in kg')).toHaveCSS('border-bottom-color','rgb(38, 72, 212)');
   await page.getByLabel('Your weight in kg').fill('45 kg');
-  await expect.soft(page.getByLabel('Your weight in kg').inputValue()).not.toBe('45 kg');
+  await expect.soft(await page.getByLabel('Your weight in kg').inputValue()).not.toBe('45 kg');
 });
 
 //TC28-29:
@@ -118,7 +118,6 @@ await expect.soft(page.getByText('Results').first()).toHaveCSS('Font-family','Ro
 await expect.soft(page.getByText('Results').first()).toHaveCSS('font-size','20px')
 await expect.soft(page.getByText('Results').first()).toHaveCSS('color','rgb(42, 54, 62)')
 await expect.soft(page.getByText('Results').first()).toHaveCSS('font-weight','700')
-console.log('linh test')
 });
 
 //TC32-34: Sharing icon button
@@ -141,7 +140,7 @@ test('TC35-37', async({page}) =>{
   await page.waitForLoadState('domcontentloaded');
   await expect.soft(await page.getByLabel('refresh button')).toHaveCSS('width','48px');
   await expect.soft(await page.getByLabel('refresh button')).toHaveCSS('background-color','rgba(0, 0, 0, 0)');
-  await page.getByLabel('refresh button').hover();
+  await page.getByLabel('refresh button').hover(timeout?: 30000);
   await expect.soft(page.getByLabel('refresh button')).toHaveCSS('background-color','rgb(244, 244, 244)');
   await expect.soft(await page.getByLabel('refresh button').evaluate(node => window.getComputedStyle(node, ':before').content)).toBe("\"Restart - clear data\"");
 });
@@ -436,7 +435,7 @@ const randomArray = (min, max, length, isRound=true) => {
   let heights = randomArray(1.64, 8.83, 3, false);
   let weights = randomArray(88, 1320, 3, false);
   console.log(ages)
-  await page.goto('/calculators/basal-metabolic-rate');
+  await page.goto('./calculators/basal-metabolic-rate');
   await page.waitForTimeout(3000);
   for (let i=0; i < 5; i++) {
     let weight = weights[Math.floor(Math.random() * weights.length)];
