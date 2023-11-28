@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('id', async ({ page }) => {
   await page.goto('/');
   await page.waitForTimeout(5000);
   await page.getByLabel('E-mail address(Required)').click();
