@@ -50,7 +50,7 @@ test('hp12-13', async ({ page }) => {
 // await expect(locator).toHaveText('Work & Life Balance ');
 // await expect(locator).toHaveText('We work hard here- but we also work smart. We understand that personal or family challenges arise and life happens, so we do our best to accommodate that. Our goal is to help employees create balance by offering paid vacation and holidays, as well as paid personal days so you can take the time you need when you need it. ');
 // });
-
+//
 test('hp15-17', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
