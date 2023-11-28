@@ -18,9 +18,12 @@ test('hp03-04', async ({ page }) => {
 test('hp05', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('domcontentloaded');
-  console.log(page.getByAltText('Dr. Berg careers').getAttribute(srcset))
-  // await expect.soft(page.getByAltText('Dr. Berg careers').getAttribute(srcset);
-  });
+  let srcset = await page.getByAltText('Dr. Berg careers').getAttribute('srcset');
+  let src = srcset.split(', ');
+  console.log(src)
+  await expect.soft(src.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/careers-homepage-backgound.jpg'))).toBe(false);
+});
+//split: cắt chuỗi , some: truyền vào function 
 
 test('hp06', async ({ page }) => {
   await page.goto('/');
@@ -39,12 +42,12 @@ test('hp07', async ({ page }) => {
 test('hp08-09', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('domcontentloaded');
-  //await expect.soft(page.getByText('Our Perks and Benefits').first()).toBeVisible();
+  await expect.soft(page.getByText('Our Benefit & perks').first()).toBeVisible();
   await expect.soft(page.getByText('Here are a few ways we contribute back to our employees.').first()).toBeVisible();
 });
 
-await page.getByRole('heading', { name: 'Work & Life Balance' }).click();
-await page.getByText('We work hard here- but we also work smart. We understand that personal or family').click();
+// await page.getByRole('heading', { name: 'Work & Life Balance' }).click();
+// await page.getByText('We work hard here- but we also work smart. We understand that personal or family').click();
 
 test('hp12-13', async ({ page }) => {
   await page.goto('/');
@@ -73,7 +76,10 @@ test('hp18-20', async ({ page }) => {
     await page.waitForLoadState('domcontentloaded');
     await expect.soft(page.getByText('Equal Opportunity Employer').first()).toBeVisible();
     await expect.soft(page.getByText('Dr. Berg Nutritionals is proud to be an equal opportunity employer that values equality and diversity. We do not discriminate based on gender, race, ethnicity, national origin, age, disability, religion, sexual orientation, gender identity or expression, veteran status, or any other applicable characteristics protected by law.')).toBeVisible();
-    await expect.soft(page.getByAltText('puzzle pieces of employee avatars')).toBeVisible()
+    let srcset = await page.locator('.__info_image__container').getByAltText('puzzle pieces of employee avatars').getAttribute('srcset');
+    let src = srcset.split(', ');
+    console.log(src)
+    await expect.soft(src.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/career-equal-opportunity-employer.png'))).toBe(false);
     });
 
 test('hp21-23', async ({ page }) => {
@@ -81,20 +87,40 @@ test('hp21-23', async ({ page }) => {
     await page.waitForLoadState('domcontentloaded');
     await expect.soft(page.getByText('Remotely powered global team').first()).toBeVisible();
     await expect.soft(page.getByText('Allowing people to work from home or from anywhere is something we believe strongly in. You will have the freedom to work from wherever you are and spend time where you feel comfortable.')).toBeVisible();
-    await expect.soft(page.getByAltText('the boy and the woman with a laptop')).toBeVisible()
+    let srcset = await page.locator('.__info_image__container').getByAltText('the boy and the woman with a laptop').getAttribute('srcset');
+    let src = srcset.split(', ');
+    await expect.soft(src.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/career-remotely-powered.png'))).toBe(false);
 });
 
 test('hp24-25', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
     await expect.soft(page.getByText('Our mission is to transform the current approach to health and wellness from one that focuses on treating symptoms to one that addresses the root cause. We believe that the only way to achieve full health potential is to support the body’s natural health pathways. Many people don’t know about the holistic approach to health and wellness—we want to spread the word with the world.')).toBeVisible();
-    await expect.soft(page.getByAltText('Green background')).toBeVisible()
+    await expect.soft(await page.getByAltText('Green background').getAttribute('src')).toEqual('https://drberg-dam.imgix.net/others/green-background-with-dashed-borders.jpg')
 });
 
 test('hp26', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
-    await expect.soft(page.getByText('What we do')).toBeVisible();
+    await expect.soft(page.locator('.__whatwedo__container').getByText('What we do')).toBeVisible();
+});
+
+test('hp27', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    await expect.soft(page.locator('.__whatwedo__body').getByText('Dietary supplements',{ exact: true })).toBeVisible();
+    await expect.soft(page.locator('.__whatwedo__body').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeVisible();
+    await page.waitForTimeout(5000)
+    await expect.soft(page.locator('.__whatwedo__body').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeHidden();
+});
+
+test('hp27', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    await expect.soft(page.locator('.__whatwedo__body').getByText('Dietary supplements',{ exact: true })).toBeVisible();
+    await expect.soft(page.locator('.__whatwedo__body').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeVisible();
+    await page.waitForTimeout(5000)
+    await expect.soft(page.locator('.__whatwedo__body').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeHidden();
 });
 
 test('hp35-40', async ({ page }) => {
@@ -106,3 +132,5 @@ test('hp35-40', async ({ page }) => {
     await page.getByRole('button', { name: 'Open positions', exact: true }).click();
     await expect(page).toHaveURL('./open-positions')
 });
+
+
