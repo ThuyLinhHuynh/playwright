@@ -6,7 +6,7 @@ await page.waitForLoadState('domcontentloaded');
 await expect.soft(page.getByText('Join Our Team').first()).toBeVisible();
 await expect.soft(page.getByText('Join us to transform the current approach to health and wellness from one that focuses on treating symptoms to one that addresses the root cause.').first()).toBeVisible();
 });
-
+// test
 
 test('hp03-04', async ({ page }) => {
   await page.goto('/');
