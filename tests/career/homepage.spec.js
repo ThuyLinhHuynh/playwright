@@ -46,14 +46,11 @@ test('hp08-09', async ({ page }) => {
   await expect.soft(page.getByText('Here are a few ways we contribute back to our employees.').first()).toBeVisible();
 });
 
-// await page.getByRole('heading', { name: 'Work & Life Balance' }).click();
-// await page.getByText('We work hard here- but we also work smart. We understand that personal or family').click();
-
 test('hp12-13', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('domcontentloaded');
-  await expect.soft(page.getByText('Join Our Team').first()).toBeVisible();
-  await expect.soft(page.getByText('Join us to transform the current approach to health and wellness from one that focuses on treating symptoms to one that addresses the root cause.').first()).toBeVisible();});
+  await expect.soft(page.locator('id=benefits_perk').getByText('Our Benefit & perks').first()).toBeVisible();
+  await expect.soft(page.locator('id=benefits_perk').getByText('Here are a few ways we contribute back to our employees.').first()).toBeVisible();});
 // test('hp10a-11a', async ({ page }) => {
 // const locator = page.locator('#benefits_perk');
 // await expect(locator).toHaveText('Work & Life Balance ');
@@ -63,12 +60,12 @@ test('hp12-13', async ({ page }) => {
 test('hp15-17', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
-    await expect.soft(page.getByText('Work & Life Balance')).toBeVisible();
-    await expect.soft(page.getByText('We work hard here- but we also work smart. We understand that personal or family challenges arise and life happens, so we do our best to accommodate that. Our goal is to help employees create balance by offering paid vacation and holidays, as well as paid personal days so you can take the time you need when you need it.')).toBeVisible();
-    await expect.soft(page.getByText('A health-conscious team')).toBeVisible();
-    await expect.soft(page.getByText('Our company lives and breathes health and wellness, and we want to make it easy for you to be your best self. We provide gym memberships to all employees so they can take full advantage of staying active, whether that\'s pumping iron at the weightlifting stations or taking a Zumba class! We also offer a 50% discount off all of Dr. Berg’s products.')).toBeVisible();
-    await expect.soft(page.getByText('Professional development and training')).toBeVisible();
-    await expect.soft(page.getByText('We offer paid on-the-job training and encourage professional advancements and continued education. Joining our team is an excellent opportunity to learn more about e-commerce and working with a health influencer!')).toBeVisible();
+    await expect.soft(page.locator('.__benefits_perk__box').getByText('Work & Life Balance')).toBeVisible();
+    await expect.soft(page.locator('.__benefits_perk__box').getByText('We work hard here- but we also work smart. We understand that personal or family challenges arise and life happens, so we do our best to accommodate that. Our goal is to help employees create balance by offering paid vacation and holidays, as well as paid personal days so you can take the time you need when you need it.')).toBeVisible();
+    await expect.soft(page.locator('.__benefits_perk__box').getByText('A health-conscious team')).toBeVisible();
+    await expect.soft(page.locator('.__benefits_perk__box').getByText('Our company lives and breathes health and wellness, and we want to make it easy for you to be your best self. We provide gym memberships to all employees so they can take full advantage of staying active, whether that\'s pumping iron at the weightlifting stations or taking a Zumba class! We also offer a 50% discount off all of Dr. Berg’s products.')).toBeVisible();
+    await expect.soft(page.locator('.__benefits_perk__box').getByText('Professional development and training')).toBeVisible();
+    await expect.soft(page.locator('.__benefits_perk__box').getByText('We offer paid on-the-job training and encourage professional advancements and continued education. Joining our team is an excellent opportunity to learn more about e-commerce and working with a health influencer!')).toBeVisible();
     });
 
 test('hp18-20', async ({ page }) => {
@@ -114,14 +111,49 @@ test('hp27', async ({ page }) => {
     await expect.soft(page.locator('.__whatwedo__body').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeHidden();
 });
 
-test('hp27', async ({ page }) => {
+test('hp28-34', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
-    await expect.soft(page.locator('.__whatwedo__body').getByText('Dietary supplements',{ exact: true })).toBeVisible();
-    await expect.soft(page.locator('.__whatwedo__body').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeVisible();
+    await page.getByText('Dietary supplements', { exact: true }).click();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeVisible();
+    let srcset = await page.locator('.__whatwedo__body').getByRole('img', { name: 'Dr. Berg supplements' }).getAttribute('srcset');
+    // let srcset = await page.locator('.__whatwedo__body').getByAltText('Dr. Berg supplements').getAttribute('srcset');
+    let src = srcset.split(', ');
+    await expect.soft(src.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/dr-berg-dietary-supplements.png'))).toBe(false);
+    
     await page.waitForTimeout(5000)
-    await expect.soft(page.locator('.__whatwedo__body').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeHidden();
+    await expect.soft(page.locator('.__whatwedo__box-title').getByText('Videos')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create low-carb related video courses, cooking shows, short documentaries, interview videos, high-quality presentations and more.')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create premium dietary supplements to provide in a simple form and easy to use all the nutrients your body needs.')).toBeHidden();
+    let srcset2 = await page.locator('.__whatwedo__body').getByRole('img', { name: 'Dr. Berg YouTube videos' }).getAttribute('srcset');
+    let src2 = srcset2.split(', ');
+    await expect.soft(src2.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/dr-berg-videos.png'))).toBe(false);
+
+    await page.waitForTimeout(5000)
+    await expect.soft(page.locator('.__whatwedo__box-title').getByText('Courses')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create courses on different health topics …… to empower user with knowledge explaining in simple words complicated health issues.')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create low-carb related video courses, cooking shows, short documentaries, interview videos, high-quality presentations and more.')).toBeHidden();
+    let srcset3 = await page.locator('.__whatwedo__body').getByRole('img', { name: 'Notebook and mobile' }).getAttribute('srcset');
+    let src3 = srcset3.split(', ');
+    await expect.soft(src3.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/dr-berg-courses.png'))).toBe(false);
+
+    await page.waitForTimeout(5000)
+    await expect.soft(page.locator('.__whatwedo__box-title').getByText('Food recipes')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create amazing low-carb recipes, meal plans and cooking videos. Our site offers more than 1000 free recipes, empowering people to eat delicious food while improving their health.')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create courses on different health topics …… to empower user with knowledge explaining in simple words complicated health issues.')).toBeHidden();
+    let srcset4 = await page.locator('.__whatwedo__body').getByRole('img', { name: 'Salmon salad' }).getAttribute('srcset');
+    let src4 = srcset4.split(', ');
+    await expect.soft(src4.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/dr-berg-healthy-recipes.jpg'))).toBe(false);
+
+    await page.waitForTimeout(5000)
+    await expect.soft(page.locator('.__whatwedo__box-title').getByText('Technology')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We build tools and apps that make it simpler for people to start and sustain a healthy low-carb lifestyle. Our engineering team has massive challenges ahead, and it’s growing rapidly.')).toBeVisible();
+    await expect.soft(page.locator('.active.__whatwedo__box-description').getByText('We create amazing low-carb recipes, meal plans and cooking videos. Our site offers more than 1000 free recipes, empowering people to eat delicious food while improving their health.')).toBeHidden();
+    let srcset5 = await page.locator('.__whatwedo__body').getByRole('img', { name: 'Dr. Berg mobile application' }).getAttribute('srcset');
+    let src5 = srcset5.split(', ');
+    await expect.soft(src5.some(c =>!c.startsWith('https://drberg-dam.imgix.net/others/dr-berg-applications.png'))).toBe(false);
 });
+
 
 test('hp35-40', async ({ page }) => {
     await page.goto('/');
