@@ -46,6 +46,60 @@ test('hp08-09', async ({ page }) => {
   await expect.soft(page.getByText('Here are a few ways we contribute back to our employees.').first()).toBeVisible();
 });
 
+
+test('hp10-11', async ({ page,request }) => {
+  let response = await request.get('https://drbergstorage.blob.core.windows.net/careersite/jobs.json');
+  let data = await response.json();
+  console.log(data);
+  await page.goto('/');
+  await page.waitForLoadState('domcontentloaded');
+  let jobTitleElement = await page.locator('.__content__left__title').first();
+  let jobTitleText = await jobTitleElement.textContent();
+  // console.log(jobTitleText)
+  let jobpositionElement = await page.locator('.__content__left__position').first();
+  let jobpositionText = await jobpositionElement.textContent();
+  console.log(jobpositionText)
+}); 
+
+
+// test('hp10-11a', async ({ page,request }) => {
+//   let response = await request.get('https://drbergstorage.blob.core.windows.net/careersite/jobs.json');
+//   let data = await response.json();
+//   // console.log(data);
+//   await page.goto('/');
+//   await page.waitForLoadState();
+//   let listjob = await page.$$('.__positions__container')
+//   // console.log(listjob)
+//   // // console.log(listjob);
+//   // let length = data.length;
+//   // for (let i=0 ; i < length ; i++) {
+//   //   let title = await listjob[i].locator('.__content__left__title').first().textContent();
+//   //   let titlejson = data[i].title;
+//   //   await expect(title).toBe(titlejson);
+//   //   console.log({title,titlejson})
+//   let result = await page.evaluate(() => {
+//     function querySelectorAllShadows(selector, el = document.body) {
+//       // recurse on childShadows
+//       const childShadows = Array.from(el.querySelectorAll('*')).
+//         map(el => el.shadowRoot).filter(Boolean);
+    
+//       // console.log('[querySelectorAllShadows]', selector, el, `(${childShadows.length} shadowRoots)`);
+    
+//       const childResults = childShadows.map(child => querySelectorAllShadows(selector, child));
+      
+//       // fuse all results into singular, flat array
+//       const result = Array.from(el.querySelectorAll(selector));
+//       return result.concat(childResults).flat();
+//     }
+//     let a = querySelectorAllShadows('a', document.querySelectorAll( '.__content__left__title'));
+//     console.log(a)
+//   })
+//   // }
+// }); 
+
+
+
+
 test('hp12-13', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('domcontentloaded');
