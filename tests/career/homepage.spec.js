@@ -47,20 +47,48 @@ test('hp08-09', async ({ page }) => {
 });
 
 
-test('hp10-11', async ({ page,request }) => {
-  let response = await request.get('https://drbergstorage.blob.core.windows.net/careersite/jobs.json');
-  let data = await response.json();
-  console.log(data);
-  await page.goto('/');
-  await page.waitForLoadState('domcontentloaded');
-  let jobTitleElement = await page.locator('.__content__left__title').first();
-  let jobTitleText = await jobTitleElement.textContent();
-  // console.log(jobTitleText)
-  let jobpositionElement = await page.locator('.__content__left__position').first();
-  let jobpositionText = await jobpositionElement.textContent();
-  console.log(jobpositionText)
-}); 
+// test('hp10-11b', async ({ page,request }) => {
+//   let response = await request.get('https://drbergstorage.blob.core.windows.net/careersite/jobs.json');
+//   let data = await response.json();
+//   console.log(data);
+//   await page.goto('/');
+//   await page.waitForLoadState('domcontentloaded');
+//   let jobTitleElement = await page.locator('.__content__left__title').first();
+//   let jobTitleText = await jobTitleElement.textContent();
+//   // console.log(jobTitleText)
+//   let jobpositionElement = await page.locator('.__content__left__position').first();
+//   let jobpositionText = await jobpositionElement.textContent();
+//   console.log(jobpositionText)
+// }); 
 
+
+// test('hp10-11', async ({page, request}) => {
+//   let apiRes = await request.get(`${process.env.BLOB_URL}/careersite/jobs.json`);
+//   await expect(apiRes).toBeOK();
+//   let apiData = await apiRes.json();
+//   await page.goto(process.env.CAREER_URL);
+//   await page.waitForLoadState();
+//   for(let job of apiData) {
+//       let hrefElem = await page.locator(`[href="/open-positions/${job.slug}"]`);
+//       await expect((await hrefElem.locator('.__content__left__title').innerText()).trim()).toBe(job.title.trim());
+//       await expect((await hrefElem.locator('.__content__left__position').innerText()).trim()).toBe(job.summary.trim());
+//   }
+// })
+
+
+test('hp10-11', async ({page, request}) => {
+  let apiRes = await request.get('https://drbergstorage.blob.core.windows.net/careersite/jobs.json');
+  await expect(apiRes).toBeOK();
+  let apiData = await apiRes.json();
+  await page.goto('/');
+  await page.waitForLoadState();
+  for(let job of apiData) {
+      let hrefElem = await page.locator(`[href="/open-positions/${job.slug}"]`);
+      console.log(hrefElem);
+      await expect((await hrefElem.locator('.__content__left__title').innerText()).trim()).toBe(job.title.trim());
+      await expect((await hrefElem.locator('.__content__left__position').innerText()).trim()).toBe(job.summary.trim());
+  }
+})
 
 // test('hp10-11a', async ({ page,request }) => {
 //   let response = await request.get('https://drbergstorage.blob.core.windows.net/careersite/jobs.json');
