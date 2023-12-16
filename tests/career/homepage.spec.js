@@ -62,18 +62,18 @@ test('hp08-09', async ({ page }) => {
 // }); 
 
 
-// test('hp10-11a', async ({page, request}) => {
-//   let apiRes = await request.get(`${process.env.BLOB_URL}/careersite/jobs.json`);
-//   await expect(apiRes).toBeOK();
-//   let apiData = await apiRes.json();
-//   await page.goto(process.env.CAREER_URL);
-//   await page.waitForLoadState();
-//   for(let job of apiData) {
-//       let hrefElem = await page.locator(`[href="/open-positions/${job.slug}"]`);
-//       await expect((await hrefElem.locator('.__content__left__title').innerText()).trim()).toBe(job.title.trim());
-//       await expect((await hrefElem.locator('.__content__left__position').innerText()).trim()).toBe(job.summary.trim());
-//   }
-// })
+test('hp10-11a', async ({page, request}) => {
+  let apiRes = await request.get(`${process.env.BLOB_URL}/careersite/jobs.json`);
+  await expect(apiRes).toBeOK();
+  let apiData = await apiRes.json();
+  await page.goto(process.env.CAREER_URL);
+  await page.waitForLoadState();
+  for(let job of apiData) {
+      let hrefElem = await page.locator(`[href="/open-positions/${job.slug}"]`);
+      await expect((await hrefElem.locator('.__content__left__title').innerText()).trim()).toBe(job.title.trim());
+      await expect((await hrefElem.locator('.__content__left__position').innerText()).trim()).toBe(job.summary.trim());
+  }
+})
 
 
 test('hp10-11', async ({page, request}) => {
