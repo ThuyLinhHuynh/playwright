@@ -62,7 +62,7 @@ test('hp08-09', async ({ page }) => {
 // }); 
 
 
-// test('hp10-11', async ({page, request}) => {
+// test('hp10-11a', async ({page, request}) => {
 //   let apiRes = await request.get(`${process.env.BLOB_URL}/careersite/jobs.json`);
 //   await expect(apiRes).toBeOK();
 //   let apiData = await apiRes.json();
@@ -90,55 +90,12 @@ test('hp10-11', async ({page, request}) => {
   }
 })
 
-// test('hp10-11a', async ({ page,request }) => {
-//   let response = await request.get('https://drbergstorage.blob.core.windows.net/careersite/jobs.json');
-//   let data = await response.json();
-//   // console.log(data);
-//   await page.goto('/');
-//   await page.waitForLoadState();
-//   let listjob = await page.$$('.__positions__container')
-//   // console.log(listjob)
-//   // // console.log(listjob);
-//   // let length = data.length;
-//   // for (let i=0 ; i < length ; i++) {
-//   //   let title = await listjob[i].locator('.__content__left__title').first().textContent();
-//   //   let titlejson = data[i].title;
-//   //   await expect(title).toBe(titlejson);
-//   //   console.log({title,titlejson})
-//   let result = await page.evaluate(() => {
-//     function querySelectorAllShadows(selector, el = document.body) {
-//       // recurse on childShadows
-//       const childShadows = Array.from(el.querySelectorAll('*')).
-//         map(el => el.shadowRoot).filter(Boolean);
-    
-//       // console.log('[querySelectorAllShadows]', selector, el, `(${childShadows.length} shadowRoots)`);
-    
-//       const childResults = childShadows.map(child => querySelectorAllShadows(selector, child));
-      
-//       // fuse all results into singular, flat array
-//       const result = Array.from(el.querySelectorAll(selector));
-//       return result.concat(childResults).flat();
-//     }
-//     let a = querySelectorAllShadows('a', document.querySelectorAll( '.__content__left__title'));
-//     console.log(a)
-//   })
-//   // }
-// }); 
-
-
-
-
 test('hp12-13', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('domcontentloaded');
   await expect.soft(page.locator('id=benefits_perk').getByText('Our Benefit & perks').first()).toBeVisible();
   await expect.soft(page.locator('id=benefits_perk').getByText('Here are a few ways we contribute back to our employees.').first()).toBeVisible();});
-// test('hp10a-11a', async ({ page }) => {
-// const locator = page.locator('#benefits_perk');
-// await expect(locator).toHaveText('Work & Life Balance ');
-// await expect(locator).toHaveText('We work hard here- but we also work smart. We understand that personal or family challenges arise and life happens, so we do our best to accommodate that. Our goal is to help employees create balance by offering paid vacation and holidays, as well as paid personal days so you can take the time you need when you need it. ');
-// });
-//
+
 test('hp15-17', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
